@@ -1,3 +1,26 @@
+<?php
+$link = mysql_connect('localhost','root','');
+if(!$link)
+{
+	die('nao foi possivel conectar: ' .mysql_error());
+
+}
+
+echo "conecao bem sucedida <br/>";
+
+$db_selected = mysql_select_db('meusite', $link);
+if (!$db_selected) {
+	
+	die('banco nao encontrado: ' .mysql_error()); 
+}
+$result = mysql_query('SELECT * from produtos WHERE 1=1');
+if (!$result) {
+    die('consulta invalida: ' . mysql_error());
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,23 +36,11 @@
 	<script src="js/animacao.js"></script>
 </head>
 <body>
-	<header class="header">
-		<div class="container">
-			<a href="index.html" class="col-md-4 col-sm-4 col-xs-4">
-				<img src="img/bikcraft.png" alt="Logo marca Bikcraft">
-			</a>
-			<nav class="col-md-8 col-sm-8 col-xs-8 header_menu">
-				<ul>
-					<li><a href="sobre.html">Sobre</a></li>
-					<li><a href="produtos.html">Produtos</a></li>
-					<li><a href="portfolio.html">Portfólio</a></li>
-					<li><a href="contato.html">Contato</a></li>
-				</ul>				
-			</nav>
 
-		</div>
-	</header>
-	
+<header class="header">	
+<?php include_once ('cabecalho.php'); ?>
+</header>
+
 	<section class="row introducao">
 		<div class="container animated fadeInDown">
 			<h1>Bicicletas Feitas a Mão</h1>
@@ -41,7 +52,18 @@
 			<a href="produtos.html" class="btn botao">Orçamento</a>
 		</div>
 	</section>
-
+    <?php
+	while ($row = mysql_fetch_assoc($result)) {
+	
+	echo $row['modelo'];
+	echo "<br/>";
+	echo $row['marca'];
+	echo "<br/>";
+	echo $row['descricao'];
+	echo "<br/>";
+	}
+	?>
+	
 	<section class="container produtos animated fadeInDown">
 		<h2 class="subtitulo">Produtos</h2>
 		<ul class="produtos_lista">
